@@ -5,7 +5,6 @@ import pickle
 import matplotlib.pyplot as plt
 
 
-
 st.write("""
 ## Predicting whether or not somebody is having heart disease.
 """)
@@ -29,20 +28,20 @@ st.write("""
 st.sidebar.header('Your Input Parameters')
 
 def user_input_features():
-    age = st.sidebar.slider('age',18,75,30)
-    sex_select = st.sidebar.selectbox('Please choose your gender',('Male', 'Female'))
+    sex_select = st.sidebar.selectbox('Gender',('Male', 'Female'))
     sex = None
-    cp = st.sidebar.slider('cp',0,3,2)
-    trestbps = st.sidebar.slider('trestbps',94,200,125)
-    chol = st.sidebar.slider('chol',126,420,318)
-    fbs = st.sidebar.slider('fbs',0,1,1)
-    restecg = st.sidebar.slider('restg',0,2,1)
-    thalach = st.sidebar.slider('thalach',80,200,145)
-    exang = st.sidebar.slider('exang',0,1,0)
-    oldpeak = st.sidebar.slider('oldpeak', 0.0,6.2,3.2)
-    slope = st.sidebar.slider('slope',0,2,1)
-    ca = st.sidebar.slider('ca',0,4,2)
-    thal = st.sidebar.slider('thal', 0,3,2)
+    age = st.sidebar.number_input('Age',18,75,28)
+    cp = st.sidebar.slider('Chest Pain',0,3,2)
+    trestbps = st.sidebar.slider('Blood Pressure',94,200,125)
+    chol = st.sidebar.slider('Cholestoral',126,420,318)
+    fbs = st.sidebar.slider('Blood Sugar',0,1,1)
+    restecg = st.sidebar.slider('Electrocardiographic',0,2,1)
+    thalach = st.sidebar.slider('Heart Rate',80,200,145)
+    exang = st.sidebar.slider('Induced Angina',0,1,0)
+    oldpeak = st.sidebar.slider('ST depression', 0.0,6.2,3.2)
+    slope = st.sidebar.slider('Slope',0,2,1)
+    ca = st.sidebar.slider('Major Vessels',0,4,2)
+    thal = st.sidebar.slider('Thalassemia', 0,3,2)
     if sex_select == 'Male':
         sex = 1
     else:
@@ -104,23 +103,53 @@ plt.legend(["No Disease", "Disease"])
 plt.xticks(rotation = 0);
 st.pyplot()
 
-st.subheader('Your Input Parameters')
+st.subheader('User Input Parameters')
 st.write(df)
 
 
-filename = 'lr_model_hd.sav'
-lr_model = pickle.load(open(filename, 'rb'))
+filename_lr = 'lr_model_hd.sav'
+filename_rf = 'rs_rf.sav'
+filename_knn = 'knn.sav'
+knn_model = pickle.load(open(filename_knn, 'rb'))
+rf_model = pickle.load(open(filename_rf, 'rb'))
+lr_model = pickle.load(open(filename_lr, 'rb'))
 
 
-predictions = lr_model.predict(df)
-prediction_proba = lr_model.predict_proba(df)
-
-st.subheader('Prediction')
-if predictions == 1:
-    st.write('You have heart disease')
-else:
-    st.write('You good')
 
 
-st.subheader('Prediction Probability')
-st.write(prediction_proba)
+picker = st.selectbox('Select classifier',
+    ('Logistic Regression', 'Random Forest', 'KNNeighbors'))
+if st.button('Predict'):
+    if picker == 'Logistic Regression':
+        prediction_proba = lr_model.predict_proba(df)
+        predictions = lr_model.predict(df)
+        if predictions == 1:
+            st.write('You have heart disease')
+            st.write('And here is your probabilities')
+            st.write(prediction_proba)
+        else:
+            st.write('You dont have any heart disease')
+            st.write('And here is your probabilities')
+            st.write(prediction_proba)
+    elif picker == 'Random Forest':
+        predictions = rf_model.predict(df)
+        prediction_proba = rf_model.predict_proba(df)
+        if predictions == 1:
+            st.write('You have heart disease')
+            st.write('And here is your probabilities')
+            st.write(prediction_proba)
+        else:
+            st.write('You dont have any heart disease')
+            st.write('And here is your probabilities')
+            st.write(prediction_proba)
+    elif picker == 'KNNeighbors':
+        predictions = knn_model.predict(df)
+        prediction_proba = knn_model.predict_proba(df)
+        if predictions == 1:
+            st.write('You have heart disease')
+            st.write('And here is your probabilities')
+            st.write(prediction_proba)
+        else:
+            st.write('You dont have any heart disease')
+            st.write('And here is your probabilities')
+            st.write(prediction_proba)
