@@ -81,7 +81,7 @@ plt.xlabel("Age")
 plt.ylabel("Max Heart Rate")
 plt.legend(["Disease", "No Disease"]);
 st.pyplot(fig)
-
+st.set_option('deprecation.showPyplotGlobalUse', False)
 # Create a plot of crosstab
 fig2 = pd.crosstab(pure_data.target, pure_data.sex).plot(kind="bar",
                                    figsize=(8, 4),
@@ -92,6 +92,7 @@ plt.ylabel("Amount")
 plt.legend(["Female", "Male"])
 plt.xticks(rotation = 0);
 st.pyplot()
+st.set_option('deprecation.showPyplotGlobalUse', False)
 #Creating another plot of crosstab
 pd.crosstab(pure_data.cp, pure_data.target).plot(kind="bar",
                                   figsize=(8, 4),
@@ -102,6 +103,8 @@ plt.ylabel("Amount")
 plt.legend(["No Disease", "Disease"])
 plt.xticks(rotation = 0);
 st.pyplot()
+st.set_option('deprecation.showPyplotGlobalUse', False)
+
 
 st.subheader('User Input Parameters')
 st.write(df)
