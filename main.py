@@ -62,7 +62,7 @@ def user_input_features():
     features = pd.DataFrame(data,index=[0])
     return features
 
-pure_data = pd.read_csv("heart-disease.csv")
+pure_data = pd.read_csv("data/heart-disease.csv")
 
 df = user_input_features()
 
@@ -107,9 +107,9 @@ st.subheader('User Input Parameters')
 st.write(df)
 
 
-filename_lr = 'lr_model_hd.sav'
-filename_rf = 'rs_rf.sav'
-filename_knn = 'knn.sav'
+filename_lr = 'models/log_reg.sav'
+filename_rf = 'models/rs_rf.sav'
+filename_knn = 'models/knn.sav'
 knn_model = pickle.load(open(filename_knn, 'rb'))
 rf_model = pickle.load(open(filename_rf, 'rb'))
 lr_model = pickle.load(open(filename_lr, 'rb'))
