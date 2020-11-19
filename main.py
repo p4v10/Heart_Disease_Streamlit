@@ -6,11 +6,19 @@ import matplotlib.pyplot as plt
 
 
 st.write("""
-## Predicting whether or not somebody is having heart disease.
+### Predicting whether or not somebody is having heart disease.
 """)
+
+st.write("""
+#### You can find this project on GitHub.
+[[Model](https://github.com/p4v10/Heart-Diseases-Classification)]
+[[Complete Project](https://github.com/p4v10/HD_Website)]
+""")
+
+
 st.write("""
 1. **age**: age in years
-2. **sex**: Male or Female
+2. **gender**: Male or Female
 3. **cp**: chest pain type`0 = typical angina`; `1 = atypical angina`; `2 = non-anginal pain`; `3 = asymptomatic`
 4. **trestbps**: resting blood pressure (in mm Hg on admission to the hospital)
 5. **chol**: serum cholestoral in mg/dl.
@@ -25,7 +33,7 @@ st.write("""
 
 """)
 
-st.sidebar.header('Your Input Parameters')
+st.sidebar.header('Please provide your data')
 
 def user_input_features():
     sex_select = st.sidebar.selectbox('Gender',('Male', 'Female'))
@@ -86,7 +94,7 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 fig2 = pd.crosstab(pure_data.target, pure_data.sex).plot(kind="bar",
                                    figsize=(8, 4),
                                    color=["salmon", "lightblue"]);
-plt.title("Heart Disease Frequency for Sex")
+plt.title("Heart Disease Frequency for Gender")
 plt.xlabel("0 = No Disease, 1 = Disease")
 plt.ylabel("Amount")
 plt.legend(["Female", "Male"])
@@ -106,7 +114,7 @@ st.pyplot()
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 
-st.subheader('User Input Parameters')
+st.subheader('Parameters that you provided')
 st.write(df)
 
 
@@ -126,33 +134,30 @@ if st.button('Predict'):
     if picker == 'Logistic Regression':
         prediction_proba = lr_model.predict_proba(df)
         predictions = lr_model.predict(df)
+        list_pred = prediction_proba.tolist()
         if predictions == 1:
-            st.write('You have heart disease')
-            st.write('And here is your probabilities')
-            st.write(prediction_proba)
+            st.write('Logistic Regression decided that you have heart disease')
+            st.write('And here is your probability not having heart disease ' + str(list_pred[0][1]))
         else:
-            st.write('You dont have any heart disease')
-            st.write('And here is your probabilities')
-            st.write(prediction_proba)
+            st.write('Logistic Regression decided that you dont have any heart disease')
+            st.write('And here is your probability not having heart disease ' + str(list_pred[0][0]))
     elif picker == 'Random Forest':
         predictions = rf_model.predict(df)
         prediction_proba = rf_model.predict_proba(df)
+        list_pred = prediction_proba.tolist()
         if predictions == 1:
-            st.write('You have heart disease')
-            st.write('And here is your probabilities')
-            st.write(prediction_proba)
+            st.write('Random Forest decided that you have heart disease')
+            st.write('And here is your probability not having heart disease ' + str(list_pred[0][1]))
         else:
-            st.write('You dont have any heart disease')
-            st.write('And here is your probabilities')
-            st.write(prediction_proba)
+            st.write('Random Forest decided that you dont have any heart disease')
+            st.write('And here is your probability not having heart disease ' + str(list_pred[0][0]))
     elif picker == 'KNNeighbors':
         predictions = knn_model.predict(df)
         prediction_proba = knn_model.predict_proba(df)
+        list_pred = prediction_proba.tolist()
         if predictions == 1:
-            st.write('You have heart disease')
-            st.write('And here is your probabilities')
-            st.write(prediction_proba)
+            st.write('KNN decided that you have heart disease')
+            st.write('And here is your probability not having heart disease ' + str(list_pred[0][1]))
         else:
-            st.write('You dont have any heart disease')
-            st.write('And here is your probabilities')
-            st.write(prediction_proba)
+            st.write('KNN decided that you dont have any heart disease')
+            st.write('And here is your probability not having heart disease ' + str(list_pred[0][0]))
