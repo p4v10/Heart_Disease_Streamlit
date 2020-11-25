@@ -5,6 +5,8 @@ import pickle
 import matplotlib.pyplot as plt
 
 
+st.set_page_config(page_title='Predict Heart Disease', page_icon='heartpulse')
+
 st.write("""
 ### Predicting whether or not somebody is having heart disease.
 """)
